@@ -3,8 +3,13 @@ const express = require("express");
 const app = express();
 // Tell which port to run on
 const port = process.env.PORT || 5000;
+
 const mongoose = require("mongoose");
 const db = require("./config/keys").mongoURI;
+
+// Import routes
+const users = require("./routes/api/users");
+const posts = require("./routes/api/posts");
 
 // connect to mongoDB
 mongoose
@@ -13,5 +18,8 @@ mongoose
     .catch(err => console.log(err));
 
 app.get("/", (req,res) => res.send("Macungie 2023!"));
+
+app.use("/api/users", users);
+app.use("/api/posts", posts);
 // Express starts a socket and listen for connections on the path
 app.listen(port,() => console.log(`Server is running on ${port} port`));
